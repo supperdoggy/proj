@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/supperdoggy/score/sctructs"
+	"github.com/supperdoggy/score/sctructs/db"
 	"log"
 	"net/http"
 )
@@ -10,7 +11,7 @@ import (
 type obj map[string]interface{}
 type arr []interface{}
 type Handlers struct {
-	DB IDB
+	DB db.IDB
 }
 
 // CreateUser - route to create new user, POST

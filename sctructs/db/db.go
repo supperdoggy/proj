@@ -1,4 +1,4 @@
-package sctructs
+package db
 
 import (
 	"fmt"

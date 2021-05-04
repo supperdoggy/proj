@@ -2,14 +2,14 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	db2 "github.com/supperdoggy/score/users/db"
+	db3 "github.com/supperdoggy/score/sctructs/db"
 	handlers2 "github.com/supperdoggy/score/users/handlers"
 	"log"
 )
 
 func main() {
 	// initializing db
-	db, err := db2.Init()
+	db, err := db3.Init()
 	if err != nil {
 		panic(err.Error())
 	}

@@ -3,11 +3,10 @@ package db
 import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"github.com/supperdoggy/score/sctructs"
 )
 
-func Init() (*sctructs.DB, error) {
-	creds := sctructs.CredsForDB{
+func Init() (*DB, error) {
+	creds := CredsForDB{
 		Name:     "users",
 		Host:     "localhost",
 		Port:     "5432",
@@ -19,5 +18,5 @@ func Init() (*sctructs.DB, error) {
 	if err != nil || db == nil {
 		return nil, err
 	}
-	return &sctructs.DB{D: db}, nil
+	return &DB{D: db}, nil
 }
