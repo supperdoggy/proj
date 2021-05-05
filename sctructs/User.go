@@ -8,9 +8,9 @@ import (
 type User struct {
 	gorm.Model
 	ID           int
-	Username     string
-	Email        string
-	HashedPass   string
+	Username     string `gorm:"unique;not null"`
+	Email        string `gorm:"unique;not null"`
+	HashedPass   string `gorm:"unique;not null"`
 	Scores       []Score
 	AverageScore float64
 
