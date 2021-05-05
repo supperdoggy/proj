@@ -1,6 +1,7 @@
 package db
 
 import (
+	"github.com/supperdoggy/score/cfg"
 	"github.com/supperdoggy/score/sctructs"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -9,11 +10,11 @@ import (
 
 func InitUsersDB() (*DB, error) {
 	creds := CredsForDB{
-		Name:     "users",
-		Host:     "localhost",
-		Port:     "5432",
-		User:     "maks",
-		Password: "abc123",
+		Name:     cfg.UserDB_name,
+		Host:     cfg.UserDB_host,
+		Port:     cfg.UserDB_port,
+		User:     cfg.UserDB_user,
+		Password: cfg.UserDB_password,
 	}
 
 	db, err := gorm.Open(postgres.Open(creds.GetURI()), &gorm.Config{})
@@ -34,11 +35,11 @@ func InitUsersDB() (*DB, error) {
 
 func InitItemsDB() (*DB, error) {
 	creds := CredsForDB{
-		Name:     "items",
-		Host:     "localhost",
-		Port:     "5432",
-		User:     "maks",
-		Password: "abc123",
+		Name:     cfg.ItemsDB_name,
+		Host:     cfg.ItemsDB_host,
+		Port:     cfg.ItemsDB_port,
+		User:     cfg.ItemsDB_user,
+		Password: cfg.ItemsDB_password,
 	}
 
 	db, err := gorm.Open(postgres.Open(creds.GetURI()), &gorm.Config{})
