@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// initializing db
-	db, err := db3.Init()
+	db, err := db3.InitUsersDB()
 	if err != nil {
 		panic(err.Error())
 	}

@@ -5,11 +5,12 @@ import "errors"
 type Item struct {
 	ID           int
 	Name         string
+	Category     string
 	Scores       []Score
 	AverageScore float64
 
-	Cost int
-
+	Cost   int
+	Author string
 }
 
 func (i *Item) AddScore(userID, score int) error {

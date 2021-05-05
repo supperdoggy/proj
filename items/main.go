@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// initializing db
-	db, err := db3.Init()
+	db, err := db3.InitItemsDB()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -23,10 +23,12 @@ func main() {
 	apiv1 := r.Group("/api/v1")
 	{
 		apiv1.GET("/helloworrld", handlers.HelloWorld)
+		apiv1.POST("/find", handlers.Find)
+		apiv1.POST("/delete", handlers.Delete)
+		apiv1.POST("/create", handlers.Create)
 	}
 
-
-	if err := r.Run(":1212"); err!= nil {
+	if err := r.Run(":1212"); err != nil {
 		log.Println("!!! r.Run() ERROR !!!")
 	}
 

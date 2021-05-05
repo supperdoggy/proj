@@ -40,9 +40,9 @@ func (h *Handlers) GetAllUsers(c *gin.Context) {
 	var users []sctructs.User
 	// how to search
 	thing := h.DB.Where("Username = ?", "username random")
-	if err := h.DB.Find(&users); err != nil {
-		log.Println("GetAllUsers() -> Find() error:", err.Error())
-		c.JSON(http.StatusBadRequest, obj{"error":err.Error()})
+	if dbresult := h.DB.Find(&users); dbresult.Error != nil {
+		log.Println("GetAllUsers() -> Find() error:", dbresult.Error)
+		c.JSON(http.StatusBadRequest, obj{"error": dbresult.Error})
 	}
 	thing.First(&users)
 

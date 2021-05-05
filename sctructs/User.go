@@ -7,11 +7,11 @@ import (
 
 type User struct {
 	gorm.Model
-	ID         int
-	Username   string
-	Email      string
-	HashedPass string
-	Scores []Score
+	ID           int
+	Username     string
+	Email        string
+	HashedPass   string
+	Scores       []Score
 	AverageScore float64
 
 	Age uint8
@@ -36,4 +36,3 @@ func (i *User) AddScore(userID, score int) error {
 	i.AverageScore = avrg
 	return nil
 }
-
