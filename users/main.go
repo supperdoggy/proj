@@ -26,11 +26,13 @@ func main() {
 
 	apiv1 := r.Group("/api/v1")
 	{
-		apiv1.POST("/createuser", handlers.CreateUser)
-		apiv1.GET("/getallusers", handlers.GetAllUsers)
+		apiv1.POST("/create", handlers.CreateUser)
+		apiv1.GET("/getall", handlers.GetAllUsers)
+		apiv1.POST("/find", handlers.Find)
+		apiv1.POST("/delete", handlers.Delete)
 	}
 
-	if err := r.Run(":1321"); err != nil {
+	if err := r.Run(":12321"); err != nil {
 		log.Println("r.Run() error!!!")
 	}
 

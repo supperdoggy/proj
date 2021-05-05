@@ -32,20 +32,80 @@ func (h *Handlers) CreateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, obj{"error": "error creating new user"})
 		return
 	}
-	c.Status(http.StatusOK)
+	c.JSON(http.StatusOK, user)
 }
 
 // GetAllUsers only for test, GET
 func (h *Handlers) GetAllUsers(c *gin.Context) {
 	var users []sctructs.User
 	// how to search
-	thing := h.DB.Where("Username = ?", "username random")
 	if dbresult := h.DB.Find(&users); dbresult.Error != nil {
 		log.Println("GetAllUsers() -> Find() error:", dbresult.Error)
 		c.JSON(http.StatusBadRequest, obj{"error": dbresult.Error})
 	}
-	thing.First(&users)
 
 	c.JSON(http.StatusOK, users)
 
+}
+
+func (h *Handlers) Delete(c *gin.Context) {
+	var req struct {
+		ID       int    `json:"id"`
+		Username string `json:"username"`
+		Email    string `json:"email"`
+	}
+
+	if err := c.Bind(&req); err != nil {
+		c.JSON(http.StatusBadRequest, obj{"error": "binding error"})
+		return
+	}
+
+	var result sctructs.User
+	var err error
+	// find by name
+	if req.Username != "" {
+		err = h.DB.Where("Username = ?", req.Username).Delete(&result).Error
+	} else if req.Email != "" {
+		err = h.DB.Where("Email = ?", req.Email).Delete(&result).Error
+	} else {
+		err = h.DB.Find(req.ID).Delete(&result).Error
+	}
+	// else find by it
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, obj{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, result)
+}
+
+func (h *Handlers) Find(c *gin.Context) {
+	var req struct {
+		ID       int    `json:"id"`
+		Username string `json:"username"`
+		Email    string `json:"email"`
+	}
+
+	if err := c.Bind(&req); err != nil {
+		c.JSON(http.StatusBadRequest, obj{"error": "binding error"})
+		return
+	}
+
+	var result []sctructs.Item
+	var err error
+	// find by name
+	if req.Username != "" {
+		err = h.DB.Where("Username = ?", req.Username).Find(&result).Error
+	} else if req.Email != "" {
+		err = h.DB.Where("Email = ?", req.Email).Find(&result).Error
+	} else {
+		err = h.DB.First(&result, req.ID).Error
+	}
+	// else find by it
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, obj{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, result)
 }
