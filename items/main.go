@@ -29,7 +29,7 @@ func main() {
 		apiv1.POST(itemsdata.CreatePath, handlers.Create)
 	}
 
-	if err := r.Run(":1212"); err != nil {
+	if err := r.Run(itemsdata.Port); err != nil {
 		log.Println("!!! r.Run() ERROR !!!")
 	}
 
