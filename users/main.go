@@ -2,7 +2,9 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/supperdoggy/score/sctructs"
 	db3 "github.com/supperdoggy/score/sctructs/db"
+	usersdata "github.com/supperdoggy/score/sctructs/service/users"
 	handlers2 "github.com/supperdoggy/score/users/handlers"
 	"log"
 )
@@ -24,13 +26,13 @@ func main() {
 	// initializing routes
 	r := gin.Default()
 
-	apiv1 := r.Group("/api/v1")
+	apiv1 := r.Group(sctructs.ApiV1)
 	{
-		apiv1.POST("/create", handlers.CreateUser)
-		apiv1.GET("/getall", handlers.GetAllUsers)
-		apiv1.POST("/find", handlers.Find)
-		apiv1.POST("/delete", handlers.Delete)
-		apiv1.POST("/findwithpassword", handlers.FindWithPassword)
+		apiv1.POST(usersdata.CreatePath, handlers.CreateUser)
+		apiv1.GET(usersdata.GetAllPath, handlers.GetAllUsers)
+		apiv1.POST(usersdata.FindPath, handlers.Find)
+		apiv1.POST(usersdata.DeletePath, handlers.Delete)
+		apiv1.POST(usersdata.FindWithPasswordPath, handlers.FindWithPassword)
 	}
 
 	if err := r.Run(":12321"); err != nil {

@@ -16,15 +16,15 @@ type CreateResponse struct {
 // DeleteRequest - request struct for deleting item
 // by id or by name
 type DeleteRequest struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
+	ID     int    `json:"id"`
+	Name   string `json:"name"`
 	Author string `json:"author"`
 }
 
 // DeleteResponse - response struct for deleting item
 type DeleteResponse struct {
-	Error error `json:"error"`
-	Item sctructs.Item `json:"item"`
+	Error error         `json:"error"`
+	Item  sctructs.Item `json:"item"`
 }
 
 // FindRequest - request struct for finding specific item in db
@@ -36,6 +36,6 @@ type FindRequest struct {
 
 // FindResponse - response struct for finding specific item in db
 type FindResponse struct {
-	Item sctructs.Item `json:"item"`
-	Error error `json:"error"`
+	Item  sctructs.Item `json:"item"`
+	Error error         `json:"error"`
 }

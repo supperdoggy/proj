@@ -14,10 +14,6 @@ type Handlers struct {
 	DB db.IDB
 }
 
-func (h *Handlers) HelloWorld(c *gin.Context) {
-	c.JSON(200, obj{"hello": "world"})
-}
-
 // Create - handler for creating new item in db
 func (h *Handlers) Create(c *gin.Context) {
 	var req itemsdata.CreateRequest

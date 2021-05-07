@@ -59,7 +59,7 @@ type FindWithPasswordRequest struct {
 	// firstly looking for user with the given Username
 	Username string `json:"username"`
 	// then by given Email
-	Email    string `json:"email"`
+	Email string `json:"email"`
 	// checking Password of found user and if they are similar -> return user
 	Password string `json:"password"`
 }
