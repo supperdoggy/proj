@@ -30,6 +30,7 @@ func main() {
 		apiv1.GET("/getall", handlers.GetAllUsers)
 		apiv1.POST("/find", handlers.Find)
 		apiv1.POST("/delete", handlers.Delete)
+		apiv1.POST("/findwithpassword", handlers.FindWithPassword)
 	}
 
 	if err := r.Run(":12321"); err != nil {
