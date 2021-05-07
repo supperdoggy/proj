@@ -55,6 +55,7 @@ func (h *Handlers) GetAllUsers(c *gin.Context) {
 
 }
 
+// Delete - handler for deleting user from db
 func (h *Handlers) Delete(c *gin.Context) {
 	var req usersdata.DeleteRequest
 	var res usersdata.DeleteResponse
@@ -82,6 +83,7 @@ func (h *Handlers) Delete(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+// Find - handler for finding specific user in db
 func (h *Handlers) Find(c *gin.Context) {
 	var req usersdata.FindRequest
 	var res usersdata.FindResponse
@@ -108,6 +110,8 @@ func (h *Handlers) Find(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+// FindWithPassword - a tricky one, find a specific user and then
+// if given password is equal to found user, returning that user
 func (h Handlers) FindWithPassword(c *gin.Context) {
 	var req usersdata.FindWithPasswordRequest
 	var res usersdata.FindWithPasswordResponse

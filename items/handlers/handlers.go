@@ -1,9 +1,10 @@
 package handlers
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
-	"github.com/supperdoggy/score/sctructs"
 	"github.com/supperdoggy/score/sctructs/db"
+	itemsdata "github.com/supperdoggy/score/sctructs/service/items"
 	"net/http"
 )
 
@@ -17,81 +18,77 @@ func (h *Handlers) HelloWorld(c *gin.Context) {
 	c.JSON(200, obj{"hello": "world"})
 }
 
+// Create - handler for creating new item in db
 func (h *Handlers) Create(c *gin.Context) {
-	var req sctructs.Item
-
+	var req itemsdata.CreateRequest
+	var res itemsdata.CreateResponse
 	if err := c.Bind(&req); err != nil {
-		c.JSON(http.StatusBadRequest, obj{"error": "error binding request"})
+		res.Error = errors.New("error binging your request")
+		c.JSON(http.StatusBadRequest, res)
 		return
 	}
 
-	if req.Author == "" || req.Category == "" || req.Name == "" {
-		c.JSON(http.StatusBadRequest, obj{"error": "need to fill required fields"})
+	if req.Item.Author == "" || req.Item.Category == "" || req.Item.Name == "" {
+		res.Error = errors.New("need to fill required fields")
+		c.JSON(http.StatusBadRequest, res)
 		return
 	}
 
-	if err := h.DB.Create(&req); err != nil {
-		c.JSON(http.StatusBadRequest, obj{"error": "error creating item in db"})
+	if err := h.DB.Create(&req.Item); err != nil {
+		res.Error = errors.New("error creating item in db")
+		c.JSON(http.StatusBadRequest, res)
 		return
 	}
-	c.Status(http.StatusOK)
+	res.Item = req.Item
+	c.JSON(http.StatusOK, res)
 }
 
+// Delete - handler for deleting item from db
 func (h *Handlers) Delete(c *gin.Context) {
-	var req struct {
-		ID   int    `json:"id"`
-		Name string `json:"name"`
-	}
+	var req itemsdata.DeleteRequest
+	var res itemsdata.DeleteResponse
 
 	if err := c.Bind(&req); err != nil {
-		c.JSON(http.StatusBadRequest, obj{"error": "binding error"})
+		res.Error = errors.New("binding error")
+		c.JSON(http.StatusBadRequest, res)
 		return
 	}
 
-	var result sctructs.Item
-	var err error
 	// find by name
 	if req.Name != "" {
-		err = h.DB.Where("Name = ?", req.Name).Delete(&result).Error
+		res.Error = h.DB.Where("Name = ? AND Author = ?", req.Name, req.Author).Delete(&res.Item).Error
 	} else {
-		err = h.DB.Find(req.ID).Delete(&result).Error
+		res.Error = h.DB.Find(req.ID).Delete(&res.Item).Error
 	}
 	// else find by it
 
-	if err != nil {
-		c.JSON(http.StatusBadRequest, obj{"error": err.Error()})
+	if res.Error != nil {
+		c.JSON(http.StatusBadRequest, res)
 		return
 	}
-	c.JSON(http.StatusOK, result)
+	c.JSON(http.StatusOK, res)
 }
 
+// Find - handler for finding specific item in db
 func (h *Handlers) Find(c *gin.Context) {
-	var req struct {
-		ID     int    `json:"id"`
-		Name   string `json:"name"`
-		Author string `json:"author"`
-	}
-
+	var req itemsdata.FindRequest
+	var res itemsdata.FindResponse
 	if err := c.Bind(&req); err != nil {
-		c.JSON(http.StatusBadRequest, obj{"error": "binding error"})
+		res.Error = errors.New("binding error")
+		c.JSON(http.StatusBadRequest, res)
 		return
 	}
-
-	var result []sctructs.Item
-	var err error
 	// find by name
 	if req.Name != "" {
-		err = h.DB.Where("Name = ?", req.Name).Find(&result).Error
-	} else if req.Author != "" {
-		err = h.DB.Where("Author = ?", req.Author).Find(&result).Error
+		res.Error = h.DB.Where("Name = ? AND Author = ?", req.Name, req.Author).First(&res.Item).Error
 	} else {
-		err = h.DB.First(&result, req.ID).Error
+		res.Error = h.DB.First(&res.Item, req.ID).Error
 	}
 	// else find by it
 
-	if err != nil {
-		c.JSON(http.StatusBadRequest, obj{"error": err.Error()})
+	if res.Error != nil {
+		c.JSON(http.StatusBadRequest, res)
 		return
 	}
-	c.JSON(http.StatusOK, result)
+	c.JSON(http.StatusOK, res)
 }
