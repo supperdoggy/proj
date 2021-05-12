@@ -5,5 +5,5 @@ const (
 	DeletePath = "/delete"
 	CreatePath = "/create"
 	UsersRoute = "localhost" + Port
-	Port = ":1212"
+	Port       = ":1212"
 )

@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/supperdoggy/score/sctructs/db"
 	itemsdata "github.com/supperdoggy/score/sctructs/service/items"
@@ -19,19 +19,19 @@ func (h *Handlers) Create(c *gin.Context) {
 	var req itemsdata.CreateRequest
 	var res itemsdata.CreateResponse
 	if err := c.Bind(&req); err != nil {
-		res.Error = errors.New("error binging your request")
+		res.Error = fmt.Sprintf("error binging your request")
 		c.JSON(http.StatusBadRequest, res)
 		return
 	}
 
 	if req.Item.Author == "" || req.Item.Category == "" || req.Item.Name == "" {
-		res.Error = errors.New("need to fill required fields")
+		res.Error = fmt.Sprintf("need to fill required fields")
 		c.JSON(http.StatusBadRequest, res)
 		return
 	}
 
 	if err := h.DB.Create(&req.Item); err != nil {
-		res.Error = errors.New("error creating item in db")
+		res.Error = fmt.Sprintf("error creating item in db")
 		c.JSON(http.StatusBadRequest, res)
 		return
 	}
@@ -45,20 +45,20 @@ func (h *Handlers) Delete(c *gin.Context) {
 	var res itemsdata.DeleteResponse
 
 	if err := c.Bind(&req); err != nil {
-		res.Error = errors.New("binding error")
+		res.Error = fmt.Sprintf("binding error")
 		c.JSON(http.StatusBadRequest, res)
 		return
 	}
 
 	// find by name
 	if req.Name != "" {
-		res.Error = h.DB.Where("Name = ? AND Author = ?", req.Name, req.Author).Delete(&res.Item).Error
+		res.Error = h.DB.Where("Name = ? AND Author = ?", req.Name, req.Author).Delete(&res.Item).Error.Error()
 	} else {
-		res.Error = h.DB.Find(req.ID).Delete(&res.Item).Error
+		res.Error = h.DB.Find(req.ID).Delete(&res.Item).Error.Error()
 	}
 	// else find by it
 
-	if res.Error != nil {
+	if res.Error != "" {
 		c.JSON(http.StatusBadRequest, res)
 		return
 	}
@@ -70,19 +70,19 @@ func (h *Handlers) Find(c *gin.Context) {
 	var req itemsdata.FindRequest
 	var res itemsdata.FindResponse
 	if err := c.Bind(&req); err != nil {
-		res.Error = errors.New("binding error")
+		res.Error = fmt.Sprintf("binding error")
 		c.JSON(http.StatusBadRequest, res)
 		return
 	}
 	// find by name
 	if req.Name != "" {
-		res.Error = h.DB.Where("Name = ? AND Author = ?", req.Name, req.Author).First(&res.Item).Error
+		res.Error = h.DB.Where("Name = ? AND Author = ?", req.Name, req.Author).First(&res.Item).Error.Error()
 	} else {
-		res.Error = h.DB.First(&res.Item, req.ID).Error
+		res.Error = h.DB.First(&res.Item, req.ID).Error.Error()
 	}
 	// else find by it
 
-	if res.Error != nil {
+	if res.Error != "" {
 		c.JSON(http.StatusBadRequest, res)
 		return
 	}

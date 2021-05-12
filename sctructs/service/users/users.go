@@ -10,7 +10,7 @@ type CreateUserRequest struct {
 // CreateUserResponse - struct to return answer to request
 type CreateUserResponse struct {
 	// error if anything gone wrong
-	Error error `json:"error"`
+	Error string `json:"error"`
 	// user we created goes here
 	User sctructs.User `json:"user"`
 }
@@ -18,7 +18,7 @@ type CreateUserResponse struct {
 // GetAllUsersResponse - struct to return all users to request
 type GetAllUsersResponse struct {
 	Users []sctructs.User `json:"users"`
-	Error error           `json:"error"`
+	Error string           `json:"error"`
 }
 
 // DeleteRequest - struct for deleting user by input data
@@ -33,7 +33,7 @@ type DeleteRequest struct {
 
 // DeleteResponse - response struct to delete user request
 type DeleteResponse struct {
-	Error error `json:"error"`
+	Error string `json:"error"`
 	// deleted User
 	User sctructs.User `json:"user"`
 }
@@ -50,7 +50,7 @@ type FindRequest struct {
 
 // FindResponse - return struct to finding user request
 type FindResponse struct {
-	Error error         `json:"error"`
+	Error string         `json:"error"`
 	Users sctructs.User `json:"users"`
 }
 
@@ -66,6 +66,6 @@ type FindWithPasswordRequest struct {
 
 // FindWithPasswordResponse - response struct for returning user and password
 type FindWithPasswordResponse struct {
-	Error error         `json:"error"`
+	Error string         `json:"error"`
 	User  sctructs.User `json:"user"`
 }

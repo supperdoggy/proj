@@ -1,6 +1,8 @@
 package authdata
 
 const (
-	UsersRoute = "localhost" + Port
-	Port = ":2387"
+	CheckTokenPath = "/checkToken"
+	RegisterPath = "/register"
+	UsersRoute     = "localhost" + Port
+	Port           = ":2387"
 )

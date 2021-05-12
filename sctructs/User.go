@@ -3,18 +3,19 @@ package sctructs
 import (
 	"errors"
 	"gorm.io/gorm"
+	"time"
 )
 
 type User struct {
 	gorm.Model
-	ID           int
-	Username     string `gorm:"unique;not null"`
-	Email        string `gorm:"unique;not null"`
-	HashedPass   string `gorm:"unique;not null"`
-	Scores       []Score
-	AverageScore float64
+	ID           int `json:"id"`
+	Username     string `gorm:"unique;not null" json:"username"`
+	Email        string `gorm:"unique;not null" json:"email"`
+	HashedPass   string `gorm:"unique;not null" json:"hashed_pass"`
+	Scores       []Score `json:"scores"`
+	AverageScore float64 `json:"average_score"`
 
-	Age uint8
+	BirthDate time.Time `json:"birth_date"`
 }
 
 func (i *User) AddScore(userID, score int) error {

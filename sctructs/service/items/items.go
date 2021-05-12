@@ -10,7 +10,7 @@ type CreateRequest struct {
 // CreateResponse - response struct for creating item
 type CreateResponse struct {
 	Item  sctructs.Item `json:"item"`
-	Error error         `json:"error"`
+	Error string         `json:"error"`
 }
 
 // DeleteRequest - request struct for deleting item
@@ -23,7 +23,7 @@ type DeleteRequest struct {
 
 // DeleteResponse - response struct for deleting item
 type DeleteResponse struct {
-	Error error         `json:"error"`
+	Error string         `json:"error"`
 	Item  sctructs.Item `json:"item"`
 }
 
@@ -37,5 +37,5 @@ type FindRequest struct {
 // FindResponse - response struct for finding specific item in db
 type FindResponse struct {
 	Item  sctructs.Item `json:"item"`
-	Error error         `json:"error"`
+	Error string         `json:"error"`
 }
