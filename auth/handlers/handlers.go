@@ -35,6 +35,7 @@ func (h *Handlers) CheckToken(c *gin.Context) {
 }
 
 // TODO: simplify
+// жесть я нагамнякав, потом поправлю, честно честно
 func (h *Handlers) Register(c *gin.Context) {
 	var req authdata.RegisterReq
 	var res authdata.RegisterRes
