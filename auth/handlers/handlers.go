@@ -45,6 +45,7 @@ func (h *Handlers) Register(c *gin.Context) {
 		return
 	}
 
+	// TODO: email validation
 	if req.Username == "" || req.Email == "" || req.Password == "" {
 		res.Error = fmt.Sprintf("fill all of the fields")
 		c.JSON(http.StatusBadRequest, res)
