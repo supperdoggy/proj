@@ -40,7 +40,7 @@ func CheckCredentials(req authdata.RegisterReq) error {
 		err = fmt.Errorf("looks like given email is invalid")
 	}
 	if len(req.Username) < 4 {
-		err = fmt.Errorf("username should be more than 6 chars")
+		err = fmt.Errorf("username should be more than 4 chars")
 	}
 	if len(req.Password) < 8 {
 		err = fmt.Errorf("password should be at least 8 chars")
