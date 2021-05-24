@@ -39,7 +39,7 @@ func CheckCredentials(req authdata.RegisterReq) error {
 	if match, _ := regexp.MatchString(sctructs.RegexpEmail, req.Email); !match {
 		err = fmt.Errorf("looks like given email is invalid")
 	}
-	if len(req.Username) < 6 {
+	if len(req.Username) < 4 {
 		err = fmt.Errorf("username should be more than 6 chars")
 	}
 	if len(req.Password) < 8 {
