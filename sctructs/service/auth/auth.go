@@ -10,7 +10,7 @@ type CheckTokenReq struct {
 }
 
 type CheckTokenRes struct {
-	Ok    bool  `json:"ok"`
+	Ok    bool   `json:"ok"`
 	Error string `json:"error"`
 }
 
@@ -22,6 +22,17 @@ type RegisterReq struct {
 }
 
 type RegisterRes struct {
-	Error string `json:"error"`
+	Error string             `json:"error"`
 	Token sctructs.AuthToken `json:"token"`
+}
+
+type LoginReq struct {
+	Login    string `json:"login"`
+	Password string `json:"password"`
+}
+
+type LoginRes struct {
+	Token sctructs.AuthToken `json:"token"`
+	OK    bool               `json:"ok"`
+	Error string             `json:"error"`
 }

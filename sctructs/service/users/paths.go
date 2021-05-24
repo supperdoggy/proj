@@ -6,6 +6,6 @@ const (
 	FindPath             = "/find"
 	DeletePath           = "/delete"
 	FindWithPasswordPath = "/findwithpassword"
-	UsersRoute           = "localhost" + Port
+	UsersRoute           = "http://localhost" + Port
 	Port                 = ":12321"
 )
