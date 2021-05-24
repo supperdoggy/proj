@@ -8,10 +8,10 @@ import (
 
 type User struct {
 	gorm.Model
-	ID           int `json:"id"`
-	Username     string `gorm:"unique;not null" json:"username"`
-	Email        string `gorm:"unique;not null" json:"email"`
-	HashedPass   string `gorm:"unique;not null" json:"hashed_pass"`
+	ID           int     `json:"id"`
+	Username     string  `gorm:"unique;not null" json:"username"`
+	Email        string  `gorm:"unique;not null" json:"email"`
+	HashedPass   string  `gorm:"unique;not null" json:"hashed_pass"`
 	Scores       []Score `json:"scores"`
 	AverageScore float64 `json:"average_score"`
 

@@ -62,10 +62,10 @@ func (h *Handlers) Register(c *gin.Context) {
 	}
 
 	reqToUsers := usersdata.CreateUserRequest{User: sctructs.User{
-		Username:     req.Username,
-		Email:        req.Email,
-		HashedPass:   req.Password,
-		BirthDate:    req.BirthDate,
+		Username:   req.Username,
+		Email:      req.Email,
+		HashedPass: req.Password,
+		BirthDate:  req.BirthDate,
 	}}
 	data, err := json.Marshal(reqToUsers)
 	if err != nil {
@@ -103,7 +103,7 @@ func (h *Handlers) Register(c *gin.Context) {
 		Email:       response.User.Email,
 		Value:       utils.GenerateRandomString(conf.TokenLen),
 		TimeCreated: time.Now(),
-		TimeExpired: time.Now().Add(64*time.Hour),
+		TimeExpired: time.Now().Add(64 * time.Hour),
 	}
 	h.Cache.Insert(token.Value, token)
 	res.Token = token
@@ -167,7 +167,7 @@ func (h *Handlers) Login(c *gin.Context) {
 		Email:       respFromUsers.User.Email,
 		Value:       utils.GenerateRandomString(conf.TokenLen),
 		TimeCreated: time.Now(),
-		TimeExpired: time.Now().Add(64*time.Hour),
+		TimeExpired: time.Now().Add(64 * time.Hour),
 	}
 	h.Cache.Insert(token.Value, token)
 	res.Token = token

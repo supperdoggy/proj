@@ -18,6 +18,7 @@ func main() {
 	{
 		apiv1.POST(authdata.CheckTokenPath, handlers.CheckToken)
 		apiv1.POST(authdata.RegisterPath, handlers.Register)
+		apiv1.POST(authdata.LoginPath, handlers.Login)
 	}
 
 	if err := r.Run(authdata.Port); err != nil {
