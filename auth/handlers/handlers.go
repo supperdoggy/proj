@@ -149,7 +149,7 @@ func (h *Handlers) Login(c *gin.Context) {
 	// sending req to users FindWithPasswordPath
 	marshaledReq, err := json.Marshal(reqToUsers)
 	if err != nil {
-		res.Error = err.Error()
+		res.Error = "marshal error" + err.Error()
 		c.JSON(http.StatusBadRequest, res)
 		return
 	}
