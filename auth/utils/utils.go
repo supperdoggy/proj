@@ -2,8 +2,10 @@ package utils
 
 import (
 	"fmt"
+	"github.com/supperdoggy/score/auth/hiddenConst"
 	"github.com/supperdoggy/score/sctructs"
 	authdata "github.com/supperdoggy/score/sctructs/service/auth"
+	"golang.org/x/crypto/bcrypt"
 	"math/rand"
 	"regexp"
 	"strings"
@@ -44,4 +46,14 @@ func CheckCredentials(req authdata.RegisterReq) error {
 		err = fmt.Errorf("password should be at least 8 chars")
 	}
 	return err
+}
+
+// HashAndSalt - returns hashed password
+func HashAndSalt(pwd string) (string, error) {
+	pwdByte := []byte(pwd+hiddenConst.Salt)
+	hash, err := bcrypt.GenerateFromPassword(pwdByte, bcrypt.MinCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hash), nil
 }

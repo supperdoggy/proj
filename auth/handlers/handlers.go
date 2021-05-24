@@ -61,6 +61,14 @@ func (h *Handlers) Register(c *gin.Context) {
 		return
 	}
 
+	hashedPassword, err := utils.HashAndSalt(req.Password)
+	req.Password = hashedPassword
+	if err != nil {
+		res.Error = "technical error hashing your password"
+		c.JSON(http.StatusBadRequest, res)
+		return
+	}
+
 	reqToUsers := usersdata.CreateUserRequest{User: sctructs.User{
 		Username:   req.Username,
 		Email:      req.Email,
@@ -128,7 +136,15 @@ func (h *Handlers) Login(c *gin.Context) {
 	} else {
 		reqToUsers.Username = req.Login
 	}
-	reqToUsers.Password = req.Password
+
+	// hashing pass
+	var err error
+	reqToUsers.Password, err = utils.HashAndSalt(req.Password)
+	if err != nil {
+		res.Error = "error hashing your password"
+		c.JSON(http.StatusBadRequest, res)
+		return
+	}
 
 	// sending req to users FindWithPasswordPath
 	marshaledReq, err := json.Marshal(reqToUsers)
