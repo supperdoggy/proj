@@ -140,7 +140,7 @@ func (h *Handlers) Login(c *gin.Context) {
 
 	// hashing pass
 	var err error
-	reqToUsers.Password+=hiddenConst.Salt
+	reqToUsers.Password = req.Password+hiddenConst.Salt
 	// sending req to users FindWithPasswordPath
 	marshaledReq, err := json.Marshal(reqToUsers)
 	if err != nil {
