@@ -153,6 +153,7 @@ func (h *Handlers) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, res)
 		return
 	}
+	log.Printf("to users %s\n", string(marshaledReq))
 
 	data, err := communication.MakeHttpRequest(usersdata.UsersRoute+usersdata.FindWithPasswordPath, "POST", marshaledReq)
 	if err != nil {
