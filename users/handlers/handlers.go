@@ -6,6 +6,7 @@ import (
 	"github.com/supperdoggy/score/sctructs"
 	"github.com/supperdoggy/score/sctructs/db"
 	usersdata "github.com/supperdoggy/score/sctructs/service/users"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -21,6 +22,9 @@ func (h *Handlers) CreateUser(c *gin.Context) {
 	var req usersdata.CreateUserRequest
 	var res usersdata.CreateUserResponse
 	if err := c.Bind(&req); err != nil {
+		data, _ := ioutil.ReadAll(c.Request.Body)
+		log.Printf("CreateUser bind error data: %s", string(data))
+
 		res.Error = fmt.Sprintf("failed to parse your request")
 		c.JSON(http.StatusBadRequest, res)
 		return
@@ -70,6 +74,9 @@ func (h *Handlers) Delete(c *gin.Context) {
 	var res usersdata.DeleteResponse
 
 	if err := c.Bind(&req); err != nil {
+		data, _ := ioutil.ReadAll(c.Request.Body)
+		log.Printf("CreateUser bind error data: %s", string(data))
+
 		res.Error = fmt.Sprintf("failed to parse your request")
 		c.JSON(http.StatusBadRequest, res)
 		return
@@ -97,6 +104,9 @@ func (h *Handlers) Find(c *gin.Context) {
 	var req usersdata.FindRequest
 	var res usersdata.FindResponse
 	if err := c.Bind(&req); err != nil {
+		data, _ := ioutil.ReadAll(c.Request.Body)
+		log.Printf("CreateUser bind error data: %s", string(data))
+
 		res.Error = fmt.Sprintf("failed to parse your request")
 		c.JSON(http.StatusBadRequest, res)
 		return
@@ -126,6 +136,9 @@ func (h Handlers) FindWithPassword(c *gin.Context) {
 	var res usersdata.FindWithPasswordResponse
 
 	if err := c.Bind(&req); err != nil {
+		data, _ := ioutil.ReadAll(c.Request.Body)
+		log.Printf("CreateUser bind error data: %s", string(data))
+
 		res.Error = fmt.Sprintf("failed to parse your request")
 		c.JSON(http.StatusBadRequest, res)
 		return
@@ -138,6 +151,7 @@ func (h Handlers) FindWithPassword(c *gin.Context) {
 	}
 	// else find by it
 	if res.Error != "" {
+		log.Println("Got error FindWithPassword:", res.Error)
 		c.JSON(http.StatusBadRequest, res)
 		return
 	}
