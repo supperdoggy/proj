@@ -19,6 +19,7 @@ import (
 
 type Handlers struct {
 	Cache sctructs.AuthTokenCache
+	UsernameCache sctructs.AuthTokenCache
 }
 
 func (h *Handlers) CheckToken(c *gin.Context) {
@@ -37,6 +38,7 @@ func (h *Handlers) CheckToken(c *gin.Context) {
 		// if token expired we delete it from the cache
 		if token.Expired() {
 			h.Cache.Delete(token.Value)
+			h.UsernameCache.Delete(token.Username)
 		}
 		return
 	}
@@ -115,6 +117,7 @@ func (h *Handlers) Register(c *gin.Context) {
 		TimeExpired: time.Now().Add(64 * time.Hour),
 	}
 	h.Cache.Insert(token.Value, token)
+	h.UsernameCache.Insert(token.Username, token)
 	res.Token = token
 	c.JSON(http.StatusOK, res)
 }
@@ -148,7 +151,6 @@ func (h *Handlers) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, res)
 		return
 	}
-	log.Printf("to users %s\n", string(marshaledReq))
 
 	data, err := communication.MakeHttpRequest(usersdata.UsersRoute+sctructs.ApiV1+usersdata.FindWithPasswordPath, "POST", marshaledReq)
 	if err != nil {
@@ -172,6 +174,12 @@ func (h *Handlers) Login(c *gin.Context) {
 		log.Println("Login() -> respFromUsers.Error =", respFromUsers.Error)
 	}
 
+	// check if we already have token and if have, delete it
+	if t, ok := h.UsernameCache.Get(respFromUsers.User.Username); ok {
+		h.Cache.Delete(t.Value)
+		h.UsernameCache.Delete(t.Username)
+	}
+
 	// generating token
 	token := sctructs.AuthToken{
 		UserID:      respFromUsers.User.ID,
@@ -182,6 +190,7 @@ func (h *Handlers) Login(c *gin.Context) {
 		TimeExpired: time.Now().Add(64 * time.Hour),
 	}
 	h.Cache.Insert(token.Value, token)
+	h.UsernameCache.Insert(token.Value, token)
 	res.Token = token
 	res.OK = true
 	c.JSON(http.StatusOK, res)

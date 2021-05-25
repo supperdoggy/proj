@@ -12,6 +12,7 @@ func main() {
 	r := gin.Default()
 	handlers := handlers2.Handlers{
 		Cache: sctructs.AuthTokenCache{}.Init(),
+		UsernameCache: sctructs.AuthTokenCache{}.Init(),
 	}
 
 	apiv1 := r.Group(sctructs.ApiV1)
