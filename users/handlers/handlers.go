@@ -6,6 +6,7 @@ import (
 	"github.com/supperdoggy/score/sctructs"
 	"github.com/supperdoggy/score/sctructs/db"
 	usersdata "github.com/supperdoggy/score/sctructs/service/users"
+	"gorm.io/gorm"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -83,12 +84,16 @@ func (h *Handlers) Delete(c *gin.Context) {
 	}
 
 	// find by name
+	var result *gorm.DB
 	if req.Username != "" {
-		res.Error = h.DB.Where("Username = ?", req.Username).Delete(&res.User).Error.Error()
+		result = h.DB.Where("Username = ?", req.Username).Delete(&res.User)
 	} else if req.Email != "" {
-		res.Error = h.DB.Where("Email = ?", req.Email).Delete(&res.User).Error.Error()
+		result = h.DB.Where("Email = ?", req.Email).Delete(&res.User)
 	} else {
-		res.Error = h.DB.Find(req.ID).Delete(&res.User).Error.Error()
+		result = h.DB.Find(req.ID).Delete(&res.User)
+	}
+	if result != nil && result.Error != nil {
+		res.Error = result.Error.Error()
 	}
 	// else find by it
 
@@ -113,12 +118,16 @@ func (h *Handlers) Find(c *gin.Context) {
 	}
 
 	// find by name
+	var result *gorm.DB
 	if req.Username != "" {
-		res.Error = h.DB.Where("Username = ?", req.Username).First(&res.Users).Error.Error()
+		result = h.DB.Where("Username = ?", req.Username).First(&res.Users)
 	} else if req.Email != "" {
-		res.Error = h.DB.Where("Email = ?", req.Email).First(&res.Users).Error.Error()
+		result = h.DB.Where("Email = ?", req.Email).First(&res.Users)
 	} else {
-		res.Error = h.DB.First(&res.Users, req.ID).Error.Error()
+		result = h.DB.First(&res.Users, req.ID)
+	}
+	if result != nil && result.Error != nil {
+		res.Error = result.Error.Error()
 	}
 	// else find by it
 
@@ -144,10 +153,14 @@ func (h Handlers) FindWithPassword(c *gin.Context) {
 		return
 	}
 	// find by name
+	var result *gorm.DB
 	if req.Username != "" {
-		res.Error = h.DB.Where("Username = ?", req.Username).First(&res.User).Error.Error()
+		result = h.DB.Where("Username = ?", req.Username).First(&res.User)
 	} else {
-		res.Error = h.DB.Where("Email = ?", req.Email).First(&res.User).Error.Error()
+		result = h.DB.Where("Email = ?", req.Email).First(&res.User)
+	}
+	if result != nil && result.Error != nil {
+		res.Error = result.Error.Error()
 	}
 	// else find by it
 	if res.Error != "" {

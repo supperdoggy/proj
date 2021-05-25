@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/supperdoggy/score/sctructs/db"
 	itemsdata "github.com/supperdoggy/score/sctructs/service/items"
+	"gorm.io/gorm"
 	"net/http"
 )
 
@@ -51,10 +52,14 @@ func (h *Handlers) Delete(c *gin.Context) {
 	}
 
 	// find by name
+	var result *gorm.DB
 	if req.Name != "" {
-		res.Error = h.DB.Where("Name = ? AND Author = ?", req.Name, req.Author).Delete(&res.Item).Error.Error()
+		result = h.DB.Where("Name = ? AND Author = ?", req.Name, req.Author).Delete(&res.Item)
 	} else {
-		res.Error = h.DB.Find(req.ID).Delete(&res.Item).Error.Error()
+		result = h.DB.Find(req.ID).Delete(&res.Item)
+	}
+	if result != nil && result.Error != nil {
+		res.Error = result.Error.Error()
 	}
 	// else find by it
 
@@ -75,10 +80,14 @@ func (h *Handlers) Find(c *gin.Context) {
 		return
 	}
 	// find by name
+	var result *gorm.DB
 	if req.Name != "" {
-		res.Error = h.DB.Where("Name = ? AND Author = ?", req.Name, req.Author).First(&res.Item).Error.Error()
+		result = h.DB.Where("Name = ? AND Author = ?", req.Name, req.Author).First(&res.Item)
 	} else {
-		res.Error = h.DB.First(&res.Item, req.ID).Error.Error()
+		result = h.DB.First(&res.Item, req.ID)
+	}
+	if result != nil && result.Error != nil {
+		res.Error = result.Error.Error()
 	}
 	// else find by it
 
