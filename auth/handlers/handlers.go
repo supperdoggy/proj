@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/supperdoggy/score/auth/conf"
+	"github.com/supperdoggy/score/auth/hiddenConst"
 	"github.com/supperdoggy/score/auth/utils"
 	"github.com/supperdoggy/score/sctructs"
 	"github.com/supperdoggy/score/sctructs/communication"
@@ -139,13 +140,7 @@ func (h *Handlers) Login(c *gin.Context) {
 
 	// hashing pass
 	var err error
-	reqToUsers.Password, err = utils.HashAndSalt(req.Password)
-	if err != nil {
-		res.Error = "error hashing your password"
-		c.JSON(http.StatusBadRequest, res)
-		return
-	}
-
+	reqToUsers.Password+=hiddenConst.Salt
 	// sending req to users FindWithPasswordPath
 	marshaledReq, err := json.Marshal(reqToUsers)
 	if err != nil {

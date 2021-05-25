@@ -6,6 +6,7 @@ import (
 	"github.com/supperdoggy/score/sctructs"
 	"github.com/supperdoggy/score/sctructs/db"
 	usersdata "github.com/supperdoggy/score/sctructs/service/users"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"io/ioutil"
 	"log"
@@ -169,7 +170,7 @@ func (h Handlers) FindWithPassword(c *gin.Context) {
 		return
 	}
 
-	if req.Password != res.User.HashedPass {
+	if err := bcrypt.CompareHashAndPassword([]byte(res.User.HashedPass), []byte(req.Password)); err != nil {
 		res.User = sctructs.User{}
 		res.Error = fmt.Sprintf("not found")
 		c.JSON(http.StatusBadRequest, res)
