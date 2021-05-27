@@ -29,7 +29,7 @@ func GenerateRandomString(length int) string {
 
 func CheckCredentials(req authdata.RegisterReq) error {
 	var err error
-	if req.Username == "" || req.Email == "" || req.Password == "" {
+	if req.Username == "" || req.Email == "" || req.Password == "" || req.Name == "" {
 		err = fmt.Errorf("fill all of the fields")
 	}
 	// check for @ in username and email validation
@@ -50,7 +50,7 @@ func CheckCredentials(req authdata.RegisterReq) error {
 
 // HashAndSalt - returns hashed password
 func HashAndSalt(pwd string) (string, error) {
-	pwdByte := []byte(pwd+hiddenConst.Salt)
+	pwdByte := []byte(pwd + hiddenConst.Salt)
 	hash, err := bcrypt.GenerateFromPassword(pwdByte, bcrypt.MinCost)
 	if err != nil {
 		return "", err

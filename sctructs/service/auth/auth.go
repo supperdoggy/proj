@@ -17,6 +17,7 @@ type CheckTokenRes struct {
 type RegisterReq struct {
 	Username  string    `json:"username"`
 	Email     string    `json:"email"`
+	Name      string    `json:"name"`
 	Password  string    `json:"password"`
 	BirthDate time.Time `json:"birth_date"`
 }
