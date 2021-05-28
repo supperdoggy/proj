@@ -4,6 +4,6 @@ const (
 	CheckTokenPath = "/checkToken"
 	RegisterPath   = "/register"
 	LoginPath      = "/login"
-	UsersRoute     = "localhost" + Port
+	AuthRoute     = "localhost" + Port
 	Port           = ":2387"
 )
