@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/supperdoggy/score/page/internal/authapi"
 	authdata "github.com/supperdoggy/score/sctructs/service/auth"
@@ -18,33 +19,39 @@ func (h *Handlers) Login(c *gin.Context) {
 	var req pagedata.LoginRequest
 	var resp pagedata.LoginResponse
 
-	if err := c.Bind(&req); err != nil {
-		resp.Error = "binding error " + err.Error()
-		c.JSON(http.StatusBadRequest, resp)
-		return
-	}
-
+	req.Login = c.PostForm("login")
+	req.Password = c.PostForm("password")
 	if req.Login == "" || req.Password  == "" {
 		resp.Error = "you need to fill login and password fields"
 		c.JSON(http.StatusBadRequest, resp)
 		return
 	}
 
-	resultFromAuth, err := authapi.ApiV1(authdata.LoginPath, "POST", req)
+	data, err := authapi.ApiV1(authdata.LoginPath, "POST", req)
 	if err != nil {
 		resp.Error = err.Error()
+		c.JSON(http.StatusBadRequest, resp)
 		return
 	}
-	if resultFromAuth.(authdata.LoginRes).Error != "" {
-		log.Println("got error from auth login", resultFromAuth.(authdata.LoginRes).Error)
+
+	var resultFromAuth authdata.LoginRes
+	if err := json.Unmarshal(data, &resultFromAuth); err != nil {
+		resp.Error = "error unmarshaling"
+		c.JSON(http.StatusBadRequest, resp)
+		return
 	}
-	if !resultFromAuth.(authdata.LoginRes).OK {
+
+	if resultFromAuth.Error != "" {
+		log.Println("got error from auth login", resultFromAuth.Error)
+	}
+	log.Println(resultFromAuth)
+	if !resultFromAuth.OK {
 		resp.Error = "wrong login or password"
 		c.JSON(http.StatusBadRequest, resp)
 		return
 	}
 
-	resp.Token = resultFromAuth.(authdata.LoginRes).Token
+	resp.Token = resultFromAuth.Token
 	resp.OK = true
 
 	c.JSON(http.StatusOK, resp)

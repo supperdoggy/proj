@@ -8,16 +8,13 @@ import (
 )
 
 // ApiV1 - sends request to apiv1 auth
-func ApiV1(path, method string, data interface{}) (result interface{}, err error) {
+func ApiV1(path, method string, data interface{}) (result []byte, err error) {
 	marshaled, err := json.Marshal(data)
 	if err != nil {
 		return nil, err
 	}
-	answer, err := communication.MakeHttpRequest(authdata.AuthRoute+sctructs.ApiV1+path, method, marshaled)
+	result, err = communication.MakeHttpRequest(authdata.AuthRoute+sctructs.ApiV1+path, method, marshaled)
 	if err != nil {
-		return nil, err
-	}
-	if err := json.Unmarshal(answer, &result); err != nil {
 		return nil, err
 	}
 	return

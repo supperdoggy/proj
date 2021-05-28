@@ -2,11 +2,11 @@ package pagedata
 
 import (
 	"github.com/supperdoggy/score/sctructs"
-	authdata "github.com/supperdoggy/score/sctructs/service/auth"
 )
 
 type LoginRequest struct {
-	authdata.LoginReq
+	Login string `json:"login"`
+	Password string `json:"password"`
 }
 
 type LoginResponse struct {

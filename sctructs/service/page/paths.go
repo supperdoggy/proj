@@ -5,5 +5,5 @@ const (
 	LoginPagePath = "/login"
 	LoginReqPath = "/loginreq"
 	Port = ":12212"
-	UsersRoute           = "http://localhost" + Port
+	PageRoute           = "http://localhost" + Port
 )

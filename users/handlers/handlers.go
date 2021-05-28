@@ -177,5 +177,5 @@ func (h Handlers) FindWithPassword(c *gin.Context) {
 		return
 	}
 	res.OK = true
-	c.JSON(http.StatusBadRequest, res)
+	c.JSON(http.StatusOK, res)
 }
