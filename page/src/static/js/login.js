@@ -7,7 +7,7 @@ $(document).ready(function() {
         }
         $ajax({
             method:"POST",
-            url:"http://localhost:2387/api/v1/login",
+            url:"http://localhost:12212/api/v1/loginreq",
             data:obj,
             success:function (data) {
                 alert("logged in" + data.token)

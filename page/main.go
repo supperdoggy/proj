@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	handlers2 "github.com/supperdoggy/score/page/internal/handlers"
+	"github.com/supperdoggy/score/sctructs"
+	pagedata "github.com/supperdoggy/score/sctructs/service/page"
 	"log"
 )
 
@@ -17,13 +19,18 @@ func main() {
 	r.Static("src/static", "./src/static")
 	r.LoadHTMLGlob("src/template/*")
 
-	auth := r.Group("/auth")
+	auth := r.Group(pagedata.AuthPath)
 	auth.Static("src/static", "./src/static")
 	{
-		auth.GET("/login", handlers.LoginPage)
+		auth.GET(pagedata.LoginPagePath, handlers.LoginPage)
 	}
 
-	if err := r.Run(":12212"); err != nil {
+	apiv1 := r.Group(sctructs.ApiV1)
+	{
+		apiv1.POST(pagedata.LoginReqPath, handlers.Login)
+	}
+
+	if err := r.Run(pagedata.Port); err != nil {
 		log.Println("got error running application:", err.Error())
 	}
 }
