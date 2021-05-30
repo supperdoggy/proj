@@ -97,3 +97,13 @@ func (h *Handlers) Find(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, res)
 }
+
+func (h *Handlers) GetAll(c *gin.Context) {
+	var resp itemsdata.GetAllResponse
+	status := http.StatusOK
+	if d := h.DB.Find(&resp.Items); d.Error != nil {
+		resp.Error = d.Error.Error()
+		status = http.StatusBadRequest
+	}
+	c.JSON(status, resp)
+}

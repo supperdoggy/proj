@@ -37,3 +37,12 @@ type LoginRes struct {
 	OK    bool               `json:"ok"`
 	Error string             `json:"error"`
 }
+
+type GetTokenByValueReq struct {
+	Token string `json:"token"`
+}
+
+type GetTokenByValueResp struct {
+	Token sctructs.AuthToken `json:"token"`
+	Error string             `json:"error"`
+}

@@ -4,6 +4,6 @@ const (
 	FindPath   = "/find"
 	DeletePath = "/delete"
 	CreatePath = "/create"
-	UsersRoute = "localhost" + Port
+	ItemsPath  = "localhost" + Port
 	Port       = ":1212"
 )

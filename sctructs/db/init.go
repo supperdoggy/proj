@@ -1,7 +1,6 @@
 package db
 
 import (
-	cfg2 "github.com/supperdoggy/score/cfg"
 	"github.com/supperdoggy/score/sctructs"
 	cfg "github.com/supperdoggy/score/сfg"
 	"gorm.io/driver/postgres"
@@ -40,7 +39,7 @@ func InitItemsDB() (*DB, error) {
 		Host:     cfg.ItemsDB_host,
 		Port:     cfg.ItemsDB_port,
 		User:     cfg.ItemsDB_user,
-		Password: cfg2.ItemsDB_password,
+		Password: cfg.ItemsDB_password,
 	}
 
 	db, err := gorm.Open(postgres.Open(creds.GetURI()), &gorm.Config{})

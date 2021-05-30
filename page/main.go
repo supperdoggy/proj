@@ -23,11 +23,18 @@ func main() {
 	auth.Static("src/static", "./src/static")
 	{
 		auth.GET(pagedata.LoginPagePath, handlers.LoginPage)
+		auth.GET(pagedata.RegisterPagePath, handlers.RegisterPage)
 	}
 
 	apiv1 := r.Group(sctructs.ApiV1)
 	{
 		apiv1.POST(pagedata.LoginReqPath, handlers.Login)
+		apiv1.POST(pagedata.RegisterReqPath, handlers.Register)
+	}
+
+	main := r.Group("/", handlers.CheckToken)
+	{
+		main.GET("/", handlers.Index)
 	}
 
 	if err := r.Run(pagedata.Port); err != nil {

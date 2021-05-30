@@ -11,7 +11,7 @@ import (
 func main() {
 	r := gin.Default()
 	handlers := handlers2.Handlers{
-		Cache: sctructs.AuthTokenCache{}.Init(),
+		Cache:         sctructs.AuthTokenCache{}.Init(),
 		UsernameCache: sctructs.AuthTokenCache{}.Init(),
 	}
 
@@ -20,6 +20,7 @@ func main() {
 		apiv1.POST(authdata.CheckTokenPath, handlers.CheckToken)
 		apiv1.POST(authdata.RegisterPath, handlers.Register)
 		apiv1.POST(authdata.LoginPath, handlers.Login)
+		apiv1.POST(authdata.GetTokenByValuePath, handlers.GetTokenByValue)
 	}
 
 	if err := r.Run(authdata.Port); err != nil {

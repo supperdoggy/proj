@@ -1,0 +1,49 @@
+body {
+    font: 13px/20px "Lucida Grande", Tahoma, Verdana, sans-serif;
+    color: #404040;
+    background: #0ca3d2;
+}
+
+
+.pad {
+    position: relative;
+    margin: 30px auto;
+    padding: 20px 20px 20px;
+    width: 310px;
+    background: white;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.back{
+    border-radius: 25px;
+    background: white;
+    padding: 15px;
+    width: 80%;
+    margin-left: 7%;
+}
+
+.pad:before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    bottom: -8px;
+    left: -8px;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+}
+
+.column {
+    float: left;
+    width: 20%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}

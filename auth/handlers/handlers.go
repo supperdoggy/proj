@@ -18,7 +18,7 @@ import (
 )
 
 type Handlers struct {
-	Cache sctructs.AuthTokenCache
+	Cache         sctructs.AuthTokenCache
 	UsernameCache sctructs.AuthTokenCache
 }
 
@@ -143,7 +143,7 @@ func (h *Handlers) Login(c *gin.Context) {
 
 	// hashing pass
 	var err error
-	reqToUsers.Password = req.Password+hiddenConst.Salt
+	reqToUsers.Password = req.Password + hiddenConst.Salt
 	// sending req to users FindWithPasswordPath
 	marshaledReq, err := json.Marshal(reqToUsers)
 	if err != nil {
@@ -194,4 +194,23 @@ func (h *Handlers) Login(c *gin.Context) {
 	res.Token = token
 	res.OK = true
 	c.JSON(http.StatusOK, res)
+}
+
+func (h *Handlers) GetTokenByValue(c *gin.Context) {
+	var req authdata.GetTokenByValueReq
+	var resp authdata.GetTokenByValueResp
+
+	if err := c.Bind(&req); err != nil {
+		resp.Error = "error binding req"
+		c.JSON(http.StatusBadRequest, resp)
+		return
+	}
+	data, ok := h.Cache.Get(req.Token)
+	if !ok {
+		resp.Error = "no such token"
+		c.JSON(http.StatusBadRequest, resp)
+		return
+	}
+	resp.Token = data
+	c.JSON(http.StatusOK, resp)
 }

@@ -39,3 +39,9 @@ type FindResponse struct {
 	Item  sctructs.Item `json:"item"`
 	Error string        `json:"error"`
 }
+
+// GetAllResponse - response for get all items request
+type GetAllResponse struct {
+	Items []sctructs.Item `json:"items"`
+	Error string          `json:"error"`
+}
